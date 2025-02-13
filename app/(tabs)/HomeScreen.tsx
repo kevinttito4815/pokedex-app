@@ -1,4 +1,4 @@
-import { StyleSheet, Text, FlatList, SafeAreaView, Platform, StatusBar, ScrollView } from 'react-native';
+import { StyleSheet, Text, FlatList, SafeAreaView, Platform, StatusBar, ScrollView, TextInput } from 'react-native';
 import { Pokemon, PokemonResponse } from '../models/Pokemon';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
@@ -8,6 +8,9 @@ const POKEMONS_URL = 'https://pokeapi.co/api/v2/pokemon?limit=50';
 
 export default function HomeScreen() {
   const [pokemons, setPokemons] = useState<Pokemon[]>([]);
+  const [search,setSearch]=useState('');
+  const foundPokemons=pokemons.filter(pokemon=>pokemon.name.includes(search.toLowerCase()));
+
 
   useEffect(() => {
     const obtenerPokemons = async () => {
@@ -26,7 +29,12 @@ export default function HomeScreen() {
     <ScrollView>
       <SafeAreaView style={styles.container}>
         <Text style={styles.title}>Pokemones</Text>
-        {pokemons.map((pokemon, index) => (
+        <TextInput 
+        placeholder='Ingrese el nombre del Pokémon'
+        value={search} 
+        onChangeText={setSearch}
+        style={styles.input}/>
+        {foundPokemons.map((pokemon, index) => (
           <PokemonCard key={index.toString()} pokemon={pokemon} />
         ))}
       </SafeAreaView>
@@ -48,4 +56,11 @@ const styles = StyleSheet.create({
     fontSize: 30,
     textAlign: 'center',
   },
+  input:{
+    borderWidth:0.5,
+    borderRadius:5,
+    padding:10,
+    borderColor:'gray',
+    margin:10,
+  }
 });

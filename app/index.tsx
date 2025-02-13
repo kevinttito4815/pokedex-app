@@ -1,15 +1,63 @@
-import { View, StyleSheet, Text, TextInput } from "react-native";
-import { Link } from 'expo-router';
+import { View, StyleSheet, Text, TextInput, Alert, TouchableOpacity } from "react-native";
+import { Link, router } from 'expo-router';
+import { useState } from 'react';
+
+export interface User{
+    username:string;
+    password:string;
+    name:string;
+    email?:string;
+}
+
+export const mainUser:User={
+    username:'admin',
+    password:'123456',
+    name:'Kevin Ttito',
+    email:'kevin_ttito@gmail.com'
+}
 
 export default function LoginScreen() {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleLogin = () => {
+        if (username === mainUser.username && password === mainUser.password) {
+            router.replace('/(tabs)/HomeScreen');
+            Alert.alert('Inicio de sesión exitoso', 'Bienvenido a la Pokédex', [{ text: 'OK' }]);
+        } else {
+            Alert.alert(
+                'Error de inicio de sesión',
+                'Usuario o contraseña incorrectos',
+                [{ text: 'OK' }]
+            );
+        }
+    };
+
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Bienvenido a la pokedex!</Text>
-            <TextInput placeholder="username" style={styles.textInput}></TextInput>
-            <TextInput placeholder="password" style={styles.textInput}></TextInput>
-            <Link href='/(tabs)/HomeScreen'>Log in</Link>
+            <Text style={styles.title}>¡Bienvenido a la Pokédex!</Text>
+            <TextInput
+                placeholder="Usuario"
+                style={styles.textInput}
+                value={username}
+                onChangeText={setUsername}
+                autoCapitalize="none"
+            />
+            <TextInput
+                placeholder="Contraseña"
+                style={styles.textInput}
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry
+            />
+            <TouchableOpacity
+                style={styles.loginButton}
+                onPress={handleLogin}
+            >
+                <Text style={styles.loginButtonText}>Iniciar Sesión</Text>
+            </TouchableOpacity>
         </View>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
@@ -17,16 +65,35 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: '#f5f5f5',
+        padding: 20,
     },
     title: {
-        fontSize: 20,
+        fontSize: 24,
         fontWeight: 'bold',
+        marginBottom: 30,
+        color: '#333',
     },
     textInput: {
-        width: 300,
-        borderWidth: 0.5,
-        borderRadius: 5,
-        margin: 5,
-        padding: 10,
+        width: '100%',
+        borderWidth: 1,
+        borderColor: '#ddd',
+        borderRadius: 10,
+        margin: 10,
+        padding: 15,
+        backgroundColor: 'white',
+    },
+    loginButton: {
+        backgroundColor: '#4CAF50',
+        width: '100%',
+        padding: 15,
+        borderRadius: 10,
+        alignItems: 'center',
+        marginTop: 20,
+    },
+    loginButtonText: {
+        color: 'white',
+        fontSize: 16,
+        fontWeight: 'bold',
     }
 });

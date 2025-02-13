@@ -21,11 +21,11 @@ const PokemonCard: React.FC<{ pokemon: Pokemon }> = ({ pokemon }) => {
 const styles = StyleSheet.create({
   containter: {
     flexGrow: 1,
-    paddingHorizontal: 16, // Ajusta los márgenes laterales
+    paddingHorizontal: 16, 
   },
   cardPokemon: {
     padding: 12,
-    backgroundColor: "#F7D4BC",
+    backgroundColor: "#95a5a6",
     borderBottomWidth: 1,
     borderBottomColor: "#ddd",
     borderRadius: 8,
