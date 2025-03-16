@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
   pokemonName: {
     fontSize: 16,
     fontWeight: "500",
-    color: "#333",
+    color: "black",
     textAlign: 'center'
   }
 });

@@ -11,7 +11,6 @@ export default function HomeScreen() {
   const [search,setSearch]=useState('');
   const foundPokemons=pokemons.filter(pokemon=>pokemon.name.includes(search.toLowerCase()));
 
-
   useEffect(() => {
     const obtenerPokemons = async () => {
       try {
@@ -33,7 +32,8 @@ export default function HomeScreen() {
         placeholder='Ingrese el nombre del Pokémon'
         value={search} 
         onChangeText={setSearch}
-        style={styles.input}/>
+        style={styles.input}
+        placeholderTextColor={'black'}/>
         {foundPokemons.map((pokemon, index) => (
           <PokemonCard key={index.toString()} pokemon={pokemon} />
         ))}
@@ -58,9 +58,9 @@ const styles = StyleSheet.create({
   },
   input:{
     borderWidth:0.5,
-    borderRadius:5,
-    padding:10,
-    borderColor:'gray',
+    borderRadius:10,
+    padding:15,
+    borderColor:'black',
     margin:10,
   }
 });

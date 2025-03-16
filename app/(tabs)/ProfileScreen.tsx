@@ -3,7 +3,7 @@ import { Image, StyleSheet, Text, View } from 'react-native';
 import { mainUser } from '@/app/index';
 
 
-export default function TabTwoScreen() {
+export default function ScreenProfile() {
   return (
     <View style={styles.container}>
       <View style={styles.profileCard}>
