@@ -1,6 +1,7 @@
 export interface Pokemon {
     name: string;
     url: string;
+    imageUrl?:string;
 }
 
 export interface PokemonResponse {
@@ -14,6 +15,11 @@ export interface PokemonDetail {
     name: string;
     sprites: {
         front_default: string;
+        other:{
+            home:{
+                front_default:string;
+            }
+        }
     };
     types: {
         type: {

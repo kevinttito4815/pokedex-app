@@ -1,15 +1,15 @@
-import { StyleSheet, Text, FlatList, SafeAreaView, Platform, StatusBar, ScrollView, TextInput } from 'react-native';
+import { StyleSheet, Text, FlatList, SafeAreaView, Platform, StatusBar, ScrollView, TextInput, View } from 'react-native';
 import { Pokemon, PokemonResponse } from '../models/Pokemon';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import PokemonCard from '../components/CardPokemon';
 
-const POKEMONS_URL = 'https://pokeapi.co/api/v2/pokemon?limit=50';
+const POKEMONS_URL = 'https://pokeapi.co/api/v2/pokemon?limit=99';
 
 export default function HomeScreen() {
   const [pokemons, setPokemons] = useState<Pokemon[]>([]);
-  const [search,setSearch]=useState('');
-  const foundPokemons=pokemons.filter(pokemon=>pokemon.name.includes(search.toLowerCase()));
+  const [search, setSearch] = useState('');
+  const foundPokemons = pokemons.filter(pokemon => pokemon.name.includes(search.toLowerCase()));
 
   useEffect(() => {
     const obtenerPokemons = async () => {
@@ -25,20 +25,27 @@ export default function HomeScreen() {
   }, []);
 
   return (
-    <ScrollView>
-      <SafeAreaView style={styles.container}>
-        <Text style={styles.title}>Pokemones</Text>
-        <TextInput 
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.title}>Pokedex</Text>
+      <TextInput
         placeholder='Ingrese el nombre del Pokémon'
-        value={search} 
+        value={search}
         onChangeText={setSearch}
         style={styles.input}
-        placeholderTextColor={'black'}/>
-        {foundPokemons.map((pokemon, index) => (
-          <PokemonCard key={index.toString()} pokemon={pokemon} />
-        ))}
-      </SafeAreaView>
-    </ScrollView>
+        placeholderTextColor={'black'}
+      />
+      <FlatList
+        data={foundPokemons}
+        renderItem={({ item }) => (
+          <View style={styles.containerPokemons}>
+            <PokemonCard pokemon={item} />
+          </View>
+        )}
+        keyExtractor={(item, index) => index.toString()}
+        numColumns={3} 
+        contentContainerStyle={styles.listContainer}
+      />
+    </SafeAreaView>
   );
 }
 
@@ -56,11 +63,17 @@ const styles = StyleSheet.create({
     fontSize: 30,
     textAlign: 'center',
   },
-  input:{
-    borderWidth:0.5,
-    borderRadius:10,
-    padding:15,
-    borderColor:'black',
-    margin:10,
+  input: {
+    borderWidth: 0.5,
+    borderRadius: 10,
+    padding: 15,
+    borderColor: 'black',
+    margin: 10,
+  },
+  listContainer: {
+    paddingBottom: 20,
+  },
+  containerPokemons: {
+    width: "33.3%", 
   }
 });

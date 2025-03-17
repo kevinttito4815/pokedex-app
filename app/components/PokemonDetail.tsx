@@ -45,7 +45,7 @@ const PokemonDetails = () => {
             <View style={styles.card}>
                 <Text style={styles.title}>{pokemonDetail.name.toUpperCase()}</Text>
                 <Image
-                    source={{ uri: pokemonDetail.sprites.front_default }}
+                    source={{ uri: pokemonDetail.sprites.other.home.front_default }}
                     style={styles.image}
                 />
                 <View style={styles.details}>

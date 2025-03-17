@@ -1,4 +1,4 @@
-import { View, StyleSheet, Text, TextInput, Alert, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Text, TextInput, Alert, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Image } from "react-native";
 import { Link, router } from 'expo-router';
 import { useState } from 'react';
 
@@ -34,6 +34,7 @@ export default function LoginScreen() {
     };
 
     return (
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <View style={styles.container}>
             <Text style={styles.title}>¡Bienvenido a la Pokédex!</Text>
             <TextInput
@@ -57,6 +58,7 @@ export default function LoginScreen() {
                 <Text style={styles.loginButtonText}>Iniciar Sesión</Text>
             </TouchableOpacity>
         </View>
+        </TouchableWithoutFeedback>
     );
 }
 

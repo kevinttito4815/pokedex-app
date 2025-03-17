@@ -8,7 +8,7 @@ export default function ScreenProfile() {
     <View style={styles.container}>
       <View style={styles.profileCard}>
         <Image
-          source={require('@/assets/icons/user_icon.png')}
+          source={require('@/assets/icons/user.jpg')}
           style={styles.userIcon}
         />
         <Text style={styles.userName}>{mainUser.name}</Text>
@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     marginBottom: 15,
+    borderRadius:50,
   },
   userName: {
     fontSize: 24,

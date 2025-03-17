@@ -1,43 +1,70 @@
-import { Text, StyleSheet, ScrollView } from "react-native";
+import { Text, StyleSheet, ScrollView, Image, View } from "react-native";
 import { Pokemon } from "../models/Pokemon";
 import { Link } from 'expo-router';
+import { useEffect, useState } from "react";
+import axios from 'axios';
+import { PokemonDetail } from "../models/Pokemon";
 
 const PokemonCard: React.FC<{ pokemon: Pokemon }> = ({ pokemon }) => {
+  const [imageUrl,setImageUrl]=useState<string|null>(null);
+  useEffect(() => {
+    const fetchPokemonDetails = async () => {
+      try {
+        const response = await axios.get<PokemonDetail>(pokemon.url);
+        setImageUrl(response.data.sprites.front_default);
+      } catch (error) {
+        console.error('Error fetching Pokemon details:', error);
+      }
+    };
+
+    fetchPokemonDetails();
+  }, [pokemon.url]);
+
 
   return (
-    <ScrollView>
-      <Link href={{
+    <Link
+      href={{
         pathname: '/components/PokemonDetail',
-        params: { name: pokemon.name }
+        params: { name: pokemon.name },
       }}
-        style={styles.cardPokemon}
-      >
+      style={styles.cardContainer}
+    >
+      <View style={styles.cardPokemon}>
         <Text style={styles.pokemonName}>{pokemon.name}</Text>
-      </Link>
-    </ScrollView>
+        {imageUrl && (
+          <Image source={{ uri: imageUrl }} style={styles.pokemonImage} />
+        )}
+      </View>
+    </Link>
   );
 };
 
 const styles = StyleSheet.create({
-  containter: {
-    flexGrow: 1,
-    paddingHorizontal: 16, 
+  cardContainer: {
+    flex: 1,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 8,
   },
   cardPokemon: {
-    padding: 12,
-    backgroundColor: "#95a5a6",
-    borderBottomWidth: 1,
-    borderBottomColor: "#ddd",
-    borderRadius: 8,
-    marginVertical: 4,
-    marginBlock: 10,
+    padding: 5,
+    backgroundColor: "#ffffff",
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   pokemonName: {
     fontSize: 16,
-    fontWeight: "500",
-    color: "black",
-    textAlign: 'center'
-  }
+    fontWeight: '500',
+    color: "#2c3e50",
+    textTransform: 'capitalize',
+    textAlign: 'center',
+  },
+  pokemonImage: {
+    width: 100,
+    height: 100,
+  },
 });
 
 export default PokemonCard;
