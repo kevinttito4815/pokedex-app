@@ -1,35 +1,14 @@
-import axios from 'axios';
 import { useLocalSearchParams } from 'expo-router';
-import React, { useState, useEffect } from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
-import { PokemonDetail } from '../models/Pokemon';
+import React from 'react';
+import { View, Text, Image, StyleSheet, ActivityIndicator } from 'react-native';
+import {usePokemonDetail} from "@/hooks/usePokemonDetail";
 
 const PokemonDetails = () => {
-    const [pokemonDetail, setPokemonDetail] = useState<PokemonDetail | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-
     const { name } = useLocalSearchParams();
-    useEffect(() => {
-        const getPokemonDetail = async () => {
-            setLoading(true);
-            setError(null);
-            try {
-                const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`);
-                setPokemonDetail(response.data);
-            } catch (error) {
-                console.error('Error al obtener el detalle del pokemon', error);
-                setError('Error al cargar los datos.');
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        getPokemonDetail();
-    }, [name]);
+    const { pokemonDetail, loading, error } = usePokemonDetail(name as string);
 
     if (loading) {
-        return <Text>Cargando...</Text>;
+        return <ActivityIndicator size="large" color="red" style={styles.loader} />;
     }
 
     if (error) {
@@ -37,7 +16,7 @@ const PokemonDetails = () => {
     }
 
     if (!pokemonDetail) {
-        return <Text>No se encontró el pokemon {name}</Text>;
+        return <Text>No se encontró el Pokémon {name}</Text>;
     }
 
     return (
@@ -78,10 +57,7 @@ const styles = StyleSheet.create({
         width: '100%',
         alignItems: 'center',
         shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
+        shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 5,
@@ -121,6 +97,9 @@ const styles = StyleSheet.create({
         fontSize: 16,
         marginBottom: 5,
         color: '#666',
+    },
+    loader: {
+        marginTop: 20,
     },
 });
 
