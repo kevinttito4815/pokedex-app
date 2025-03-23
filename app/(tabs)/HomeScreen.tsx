@@ -5,7 +5,6 @@ import {
     SafeAreaView,
     Platform,
     StatusBar,
-    ScrollView,
     TextInput,
     View,
     ActivityIndicator
